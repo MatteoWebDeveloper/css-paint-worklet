@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CSS Paint Worklet</title>
+	
+	<style>
+		h1 {
+			font-size: 20px;
+		}
+	
+		.web-checkbox {
+			--checkbox-color: #e8e8e8;
+			--checkbox-radius: 5;
+			
+			width: 42px;
+			height: 42px;
+			-webkit-appearance: none;
+			background-image: paint(checkbox);
+		}
+		
+		.web-checkbox:checked {
+			--checkbox-status: true;
+			--checkbox-color: #2ab1e8;
+		}
+	</style>
+</head>
+<body>	
+	<h1>CSS Paint Worklet</h1>
+	
+	<label>
+		<input type="checkbox" class="web-checkbox"/> label
+	</label>
+	
+	<script>
+		let worklet = window.paintWorklet.import('paintworklet.js');
+	</script>
+</body>
+</html>

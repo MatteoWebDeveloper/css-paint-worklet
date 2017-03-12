@@ -1,0 +1,23 @@
+{
+  "name": "css-nice-list-features",
+  "version": "1.0.0",
+  "description": "no build, no javascript, just HTML and CSS the power of the platform.",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server public/ -o",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatteoWebDesigner/css-nice-list-features.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MatteoWebDesigner/css-nice-list-features/issues"
+  },
+  "homepage": "https://github.com/MatteoWebDesigner/css-nice-list-features#readme",
+  "devDependencies": {
+    "http-server": "^0.9.0"
+  }
+}
