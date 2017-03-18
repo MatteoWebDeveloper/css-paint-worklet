@@ -17,6 +17,9 @@
     "url": "https://github.com/MatteoWebDesigner/css-nice-list-features/issues"
   },
   "homepage": "https://github.com/MatteoWebDesigner/css-nice-list-features#readme",
+  "dependencies": {
+    "http-server": "^0.9.0"
+  },
   "devDependencies": {
     "http-server": "^0.9.0"
   }
