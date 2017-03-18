@@ -1,1 +1,1 @@
-web: http-server /public
+web: http-server public/

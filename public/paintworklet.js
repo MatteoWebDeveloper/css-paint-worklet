@@ -6,60 +6,83 @@ registerPaint('checkbox', class {
         // get css vars
         let statusProp = properties.get('--checkbox-status');
         let colorProp = properties.get('--checkbox-color');
-        // let radiusProp = properties.get('--checkbox-radius'); // TODO radius
-        // TODO resize checkbox
+        let radiusProp = properties.get('--checkbox-radius');
         
         // convert them
         const status = statusProp ? statusProp.cssText.trim() === 'true' : false;
         const color = colorProp ? colorProp.cssText : 'gray';
+        const radiusPercentage = radiusProp ? radiusProp.cssText : 25;
         
-        ctx.fillStyle = color;
-
-        // Determine the center point and radius.
-        const x = geom.width / 2;
-        const y = geom.height / 2;
-        //const radius = Math.min(x, y);
+        // box config
+        this.boxColor = color;
+        this.shadowOffset = 2;
+        this.shadowPadding = this.shadowOffset * 2;
+        this.x = 0 + this.shadowOffset;
+        this.y = 0 + this.shadowOffset;
+        this.size = Math.min(geom.width, geom.height) - this.shadowPadding;
+        this.radiusSize = this.size / 100 * radiusPercentage;
         
-        ctx.shadowOffsetX = 2;
-        ctx.shadowOffsetY = 2;
+        this.roundedRect(ctx, this.x, this.y, this.size, this.size, this.radiusSize);
+        
+        if (status) {
+            this.tick(ctx, this.x, this.y);
+        }
+    }
+    
+    roundedRect(ctx, x, y, width, height, radius) {
+        ctx.fillStyle = this.boxColor;
+        
+        ctx.shadowOffsetX = this.shadowOffset;
+        ctx.shadowOffsetY = this.shadowOffset;
         ctx.shadowBlur = 2;
         ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-
-        // box
+        
         ctx.beginPath();
-        ctx.arc(10, 10, 10, Math.PI, Math.PI * 1.5);
-        ctx.moveTo(10, 0);
-        ctx.lineTo(30, 0);
-
-        ctx.lineTo(40, 10);
-        ctx.arc(30, 10, 10, Math.PI * 1.5, 0);
-        ctx.lineTo(40, 30);
-
-        ctx.lineTo(30, 40);
-        ctx.arc(30, 30, 10, Math.PI * 2, Math.PI * 0.5);
-        ctx.lineTo(10, 40);
-
-        ctx.lineTo(0, 30);
-        ctx.arc(10, 30, 10, Math.PI * 0.5, Math.PI * 1);
-        ctx.lineTo(0, 10);
-
-        ctx.closePath();
+        ctx.moveTo(x, y + radius);
+        ctx.lineTo(x, y + height - radius);
+        ctx.arcTo(x, y + height, x + radius, y + height, radius);
+        ctx.lineTo(x + width - radius, y + height);
+        ctx.arcTo(x + width, y + height, x + width, y + height-radius, radius);
+        ctx.lineTo(x + width, y + radius);
+        ctx.arcTo(x + width, y, x + width - radius, y, radius);
+        ctx.lineTo(x + radius, y);
+        ctx.arcTo(x, y, x, y + radius, radius);
         ctx.fill();
         
-        // remove shadow
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
         ctx.shadowBlur = 0;
-
-        if (status) {
-            // tick
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(10, 18);
-            ctx.lineTo(20, 28);
-            ctx.lineTo(30, 10);
-            ctx.strokeStyle = "white";
-            ctx.stroke();
+    }
+    
+    tick(ctx, x, y) {
+        ctx.lineWidth = this.calcTickLineThickness();
+        
+        ctx.beginPath();
+        ctx.moveTo(x + this.perc(23), y + this.perc(42));
+        ctx.lineTo(x + this.perc(48), y + this.perc(66));
+        ctx.lineTo(x + this.perc(71), y + this.perc(24));
+        
+        ctx.strokeStyle = "white";
+        ctx.stroke();
+    }
+    
+    perc(percentage) {
+        let proportion = this.size / 100;
+        
+        return proportion * percentage;
+    }
+    
+    calcTickLineThickness() {
+        let maxThick = 7;
+        let maxSize = 75;
+        
+        if (this.size >= maxSize) {
+            let fixThickness = maxThick;
+            return fixThickness;
+        } 
+        else {
+            let proportinateThickness = maxThick * this.size / maxSize;
+            return proportinateThickness < 1 ? 1 : proportinateThickness;
         }
     }
 });

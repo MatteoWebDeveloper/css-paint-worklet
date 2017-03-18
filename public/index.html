@@ -8,13 +8,26 @@
 		h1 {
 			font-size: 20px;
 		}
+		
+		input {
+			outline: 0;
+		}
+		
+		label {
+			display: block;
+			margin-bottom: 5px;
+		}
+		
+		label:last-child {
+			margin-bottom: 0;
+		}
 	
 		.web-checkbox {
 			--checkbox-color: #e8e8e8;
-			--checkbox-radius: 5;
 			
-			width: 42px;
-			height: 42px;
+			margin: 0;
+			width: var(--checkbox-size, 20px);
+			height: var(--checkbox-size, 20px);
 			-webkit-appearance: none;
 			background-image: paint(checkbox);
 		}
@@ -27,9 +40,22 @@
 </head>
 <body>	
 	<h1>CSS Paint Worklet</h1>
+	<p>Only work on Chrome Canary with flag "Experimental Web Platform features" on</p>
 	
 	<label>
-		<input type="checkbox" class="web-checkbox"/> label
+		<input type="checkbox" class="web-checkbox"/> default checkbox
+	</label>
+	
+	<label>
+		<input type="checkbox" class="web-checkbox" style="--checkbox-size: 40px;"/> checkbox with custom size
+	</label>
+	
+	<label>
+		<input type="checkbox" class="web-checkbox" style="--checkbox-size: 40px; --checkbox-radius: 10;"/> checkbox with custom radius
+	</label>
+	
+	<label>
+		<input type="checkbox" class="web-checkbox" style="--checkbox-size: 80px;"/> tick max size
 	</label>
 	
 	<script>
